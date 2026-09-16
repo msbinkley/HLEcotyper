@@ -1,0 +1,13 @@
+# OS / editor
+.DS_Store
+.Rhistory
+.RData
+*.Rproj.user
+# large inputs/outputs never belong in the repo
+*.rds
+*.h5
+*.sif
+*.bam
+*.fastq*
+slurm-*.out
+# CIBERSORTx credentials

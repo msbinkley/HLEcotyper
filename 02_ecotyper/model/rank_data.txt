@@ -1,0 +1,14 @@
+"CellType"	"Chosen_Rank"	"Redefined"
+"B_cell"	2	TRUE
+"B_GC"	5	TRUE
+"CAF"	3	TRUE
+"DC_Conventional"	4	TRUE
+"DC_Plasmacytoid"	2	TRUE
+"HRS"	4	TRUE
+"Macrophage"	4	TRUE
+"NK_cell"	4	TRUE
+"Plasma"	5	FALSE
+"T_CD4"	3	TRUE
+"T_CD8"	4	TRUE
+"T_gd"	4	FALSE
+"T_Treg"	4	TRUE

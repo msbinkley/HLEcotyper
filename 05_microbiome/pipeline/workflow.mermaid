@@ -1,0 +1,34 @@
+flowchart TD
+    A["Host-removed candidate-microbial FASTQs<br/>${sample}_microbe_R1.fastq / _R2.fastq"] --> D{{"STEP 02 - Kraken2 (DNA)<br/>confidence 0 + min-hit-groups 2<br/>+ minimizer data"}}
+
+    D --> F{{"STEP 03 - Bracken species<br/>threshold 10, READ_LEN 100<br/>+ distinct-minimizer table + QC"}}
+
+    F --> H{{"STEP 05 - aggregate + filter<br/>Kraken2/Bracken only"}}
+    H --> CV[["cross_validated_species.csv<br/>Kraken2 calls with pass/fail flags"]]
+
+    CV --> G1["gate: not human (Homo sapiens)"]
+    G1 --> G2["gate: not kitome blocklist<br/>(Salter 2014 + Eisenhofer/Poore; flag &amp; exclude)"]
+    G2 --> G3["gate: distinct minimizers &ge; 5<br/>and minimizer coverage &ge; 0.01"]
+    G3 --> G4["gate: reads &ge; 5 and RPM &ge; 0.5"]
+    G4 --> G5["gate: prevalence &ge; 0.01 of cohort"]
+    G5 --> HC[["high_confidence_taxa.csv<br/>+ cohort_high_confidence_summary.csv"]]
+    CV -. "failed &ge; 1 gate (with fail_reason)" .-> REJ[["rejected_calls.csv.gz"]]
+
+    HC --> J{{"STEP 06 - figures + pipeline_summary.txt"}}
+    CV --> J
+
+    S1["STEP 01 host/rRNA/T2T cleanup"] -. "already completed upstream; scripts retained for manual reruns" .-> A
+
+    %% optional decontam hook (only if negative controls supplied)
+    CTRL["negative controls (optional)"] -. "decontam prevalence" .-> G2
+
+    classDef step fill:#1F3864,stroke:#1F3864,color:#fff;
+    classDef out fill:#D5E8D4,stroke:#2E7D32,color:#1b1b1b;
+    classDef file fill:#FFF2CC,stroke:#BF9000,color:#1b1b1b;
+    classDef gate fill:#DAE8FC,stroke:#2F5597,color:#1b1b1b;
+    classDef legacy fill:#EEEEEE,stroke:#777,color:#333;
+    class D,F,H,J step;
+    class A out;
+    class CV,HC,REJ file;
+    class G1,G2,G3,G4,G5 gate;
+    class S1 legacy;

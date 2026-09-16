@@ -1,0 +1,52 @@
+Bootstrap: docker
+From: ubuntu:22.04
+
+# Apptainer/Singularity image with pinned Kraken2 2.17.1 + Bracken 3.1, built from
+# the upstream GitHub release tarballs (deterministic, no registry-tag guessing).
+# Build with:  apptainer build --fakeroot kraken2_bracken_2.17.1_3.1.sif kraken2_bracken.def
+# Point BOTH config.sh vars at the result (KRAKEN2_SIF and BRACKEN_SIF).
+
+%labels
+    kraken2 2.17.1
+    bracken 3.1
+    maintainer brian
+
+%post
+    set -eux
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update
+    apt-get install -y --no-install-recommends \
+        build-essential g++ make wget rsync ca-certificates perl gawk \
+        zlib1g-dev python3 python3-numpy
+    ln -sf /usr/bin/python3 /usr/bin/python        # Bracken scripts call `python`
+
+    mkdir -p /opt && cd /opt
+
+    # ---- Kraken2 2.17.1 ----
+    wget -q https://github.com/DerrickWood/kraken2/archive/refs/tags/v2.17.1.tar.gz -O k2.tar.gz
+    tar xzf k2.tar.gz
+    cd kraken2-2.17.1
+    ./install_kraken2.sh /opt/kraken2          # installs kraken2, kraken2-build, kraken2-inspect
+    cd /opt && rm -rf kraken2-2.17.1 k2.tar.gz
+
+    # ---- Bracken 3.1 ----
+    # NOTE: upstream's v3.1 release still hardcodes VERSION="3.0.1" in the `bracken`
+    # script, so `bracken -v` prints "Bracken v3.0.1" even though this IS the v3.1 tag.
+    # The code is v3.1 (extracted dir = Bracken-3.1); the printed version is just stale.
+    wget -q https://github.com/jenniferlu717/Bracken/archive/refs/tags/v3.1.tar.gz -O br.tar.gz
+    tar xzf br.tar.gz
+    mv Bracken-3.1 /opt/bracken
+    cd /opt/bracken
+    bash install_bracken.sh                    # compiles src/kmer2read_distr in place
+    cd /opt && rm -f br.tar.gz
+
+    # sanity check at build time
+    /opt/kraken2/kraken2 --version
+    PATH=/opt/bracken:$PATH /opt/bracken/bracken -v || true
+
+%environment
+    export LC_ALL=C
+    export PATH=/opt/kraken2:/opt/bracken:/opt/bracken/src:$PATH
+
+%runscript
+    exec "$@"

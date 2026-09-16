@@ -1,0 +1,17 @@
+signature_matrix_cell_type	pooled_cell_type	note
+B_preGC	B_cell	pooled
+B_Memory	B_cell	pooled
+B_GC	B_GC
+Plasma	Plasma
+HRS	HRS
+T_CD4	T_CD4
+T_CD8	T_CD8
+T_Treg	T_Treg
+T_gd	T_gd
+T_MKI67	(dropped)	proliferating T cells excluded before renormalisation
+NK	NK_cell	pooled
+ILC	NK_cell	pooled
+Macrophage	Macrophage
+DC_Conventional	DC_Conventional
+DC_Plasmacytoid	DC_Plasmacytoid
+CAF	CAF

@@ -1,0 +1,20 @@
+default :
+  Input :
+    Discovery dataset name : "cHL_discovery"
+    Recovery dataset name : "cHL_recovery_<TUMOR>_<Ciber|Cyto>"
+    # Space Ranger output directory for this tumor (contains filtered_feature_bc_matrix.h5 + spatial/)
+    Input Visium directory : "/path/to/visium/<TUMOR>"
+    # per-spot cell-type fractions (13 pooled types), rows sum to 1
+    #   Ciber: renormalised CIBERSORTxGEP_NA_Fractions-Adjusted.txt from 01_cibersortx/05_hires_visium.sh
+    #   Cyto : renormalised fractional_abundances_by_spot.csv from 03_cytospace
+    Recovery cell type fractions : "/path/to/visium/<TUMOR>_fractions_norm.txt"
+    Background cell type : "NULL"
+    CIBERSORTx username : "<CIBERSORTX_USER>"
+    CIBERSORTx token : "<CIBERSORTX_TOKEN>"
+
+  Output :
+    Output folder : "/path/to/ecotyper-master/cHL_recovery_<TUMOR>_Output"
+
+  Pipeline settings :
+    Number of threads : 20
+    CIBERSORTx fractions Singularity path : "/path/to/Cibersort/hires.sif"
