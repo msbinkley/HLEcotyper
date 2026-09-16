@@ -8,10 +8,9 @@ EcoTyper, recovers them in external cohorts, spatial transcriptomics, plasma cfR
 EPIC-seq, and profiles the intratumoral microbiome/EBV.
 
 This repository documents **how each analysis was run** — the exact commands, parameters
-and file conventions — together with the small resources needed to reuse the model. It is
-not a self-contained workflow: raw and processed data are distributed as described in the
-paper's Data Availability statement, and each pipeline starts from files you already have
-(e.g. a gene-level TPM matrix), whose upstream generation is not covered here.
+and file conventions — together with the small resources needed to reuse the model. Raw and
+processed data are distributed as described in the paper's Data Availability statement,
+and each pipeline starts from files you already have (e.g. a gene-level TPM matrix).
 
 ## Layout
 
