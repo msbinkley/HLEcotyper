@@ -1,0 +1,17 @@
+deconvoluted_cell_type_16	ecotyper_cell_type_13
+B_preGC	B_preGC
+B_GC	B_postGC
+B_Memory	B_postGC
+Plasma	Plasma
+T_CD4	T_CD4
+T_CD8	T_CD8
+T_Treg	T_Treg
+T_gd	T_gd
+NK	NK
+ILC	NK
+Macrophage	Macrophage
+DC_Conventional	DC_Conventional
+DC_Plasmacytoid	DC_Plasmacytoid
+CAF	CAF
+HRS	HRS
+Cycling	(excluded)
